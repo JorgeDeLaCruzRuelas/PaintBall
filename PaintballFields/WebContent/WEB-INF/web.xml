@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>PaintballFields</display-name>
+  
+    
+  <servlet>
+		<servlet-name>relacionesHibernate</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>relacionesHibernate</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	        <!--Un filtro que no se esperaba pero que nos ayudara a que no nos ocurra el error  (No Session found for current thread),  la clase se definirá mas a detalle -->
+        
+        <!--Se levanta el contexto de Spring(applicationContext.xml) e hibernate(hibernate.xml)  -->
+        <listener>
+                <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>  
+        </listener>                       
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/relacionesHibernate-servlet.xml</param-value>
+    </context-param>
+        
+        
+        
+        
+        
+        
+        <filter>
+      <filter-name>hibernateFilter</filter-name>
+      <filter-class>com.paintballfields.modelo.CustomHibernateSessionFilter</filter-class>
+      <init-param>
+         <param-name>sessionFactoryBeanName</param-name>
+         <param-value>sessionFactory</param-value>         
+      </init-param>      
+   </filter>
+   <filter-mapping>
+     <filter-name>hibernateFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+   </filter-mapping>
+	
+	
+	
+  
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
